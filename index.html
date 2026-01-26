@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>flavorless</title>
+    <meta
+      name="description"
+      content="design the most functionally unstyled website you can imagine! javascript allowed, css forbidden."
+    />
+  </head>
+  <body>
+    <main>
+      <h1>flavorless</h1>
+      <p>
+        a <a href="https://hackclub.com">hack club</a> ysws where
+        <br />
+        <strong>ys:</strong> a (<em>functional</em>) website without any css
+        <br />
+        <strong>ws:</strong> a sticker sheet and prizes to the coolest
+        submissions (ones that make my eyes bleed)
+      </p>
+      <hr />
+
+      <h2>rules</h2>
+      <ul>
+        <li><strong>no css allowed</strong> - not even inline styles</li>
+        <li><strong>javascript is allowed</strong> - use it creatively</li>
+        <li>
+          your website has to be <strong>functionally complete</strong> -
+          meaning it must have some use and have functionality but not
+          necessarily pretty
+        </li>
+        <li>it must take you <strong>at least an hour</strong> to complete</li>
+      </ul>
+
+      <h2>how to participate</h2>
+      <ol>
+        <li>
+          track your time with
+          <a href="https://hackatime.hackclub.com/">hackatime</a>
+        </li>
+        <li>build your masterpiece using only html and javascript</li>
+        <li>
+          <a href="https://forms.hackclub.com/t/8n6UdUJuGLus"
+            >submit your creation</a
+          >
+          when done!
+        </li>
+      </ol>
+
+      <h2>javascript techniques</h2>
+      <p>ways to create visual effects without css:</p>
+
+      <dl>
+        <dt><code>textContent</code> manipulation</dt>
+        <dd>animate text by changing content over time</dd>
+        <dt>ascii art</dt>
+        <dd>draw pictures using text characters</dd>
+        <dt><code>&lt;pre&gt;</code> blocks</dt>
+        <dd>preserve spacing for text-based graphics</dd>
+        <dt>unicode characters</dt>
+        <dd>use emoji and symbols: ▓░█▄▀●○◐◑</dd>
+        <dt>html attributes</dt>
+        <dd>
+          use <code>width</code>, <code>height</code>, <code>border</code> on
+          elements
+        </dd>
+      </dl>
+
+      <hr />
+
+      <h2>resources</h2>
+      <ul>
+        <li>
+          <a href="https://sans.style/">sans style</a> - html elements reference
+        </li>
+        <li>
+          <a href="https://developer.mozilla.org/docs/Web/HTML"
+            >mdn html docs</a
+          >
+        </li>
+        <li>
+          <a href="https://hackatime.hackclub.com/">hackatime</a> - track your
+          time
+        </li>
+      </ul>
+
+      <hr />
+
+      <p>
+        <small
+          >made with <3 by @notaroomba
+          <br />
+          <a href="https://github.com/hackclub/flavorless">source</a></small
+        >
+      </p>
+    </main>
+
+    <script>
+      // Marquee Animation
+      const marqueeText =
+        "✨ welcome to flavorless! no css allowed! javascript makes magic happen! ✨";
+      const marquee = document.getElementById("marquee");
+      let marqueePos = 0;
+      setInterval(() => {
+        marqueePos = (marqueePos + 1) % marqueeText.length;
+        marquee.textContent =
+          marqueeText.slice(marqueePos) +
+          " " +
+          marqueeText.slice(0, marqueePos);
+      }, 150);
+
+      // Progress Bar
+      const progressBar = document.getElementById("progressBar");
+      const startBtn = document.getElementById("startProgress");
+      const nativeProgress = document.getElementById("nativeProgress");
+      startBtn.addEventListener("click", () => {
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += Math.random() * 5;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+          }
+          const filled = Math.floor(progress / 10);
+          const empty = 10 - filled;
+          progressBar.textContent =
+            "[" +
+            "█".repeat(filled) +
+            "░".repeat(empty) +
+            "] " +
+            Math.floor(progress) +
+            "%";
+          nativeProgress.value = progress;
+        }, 100);
+      });
+
+      // Wave Animation
+      const wave = document.getElementById("wave");
+      let waveFrame = 0;
+      setInterval(() => {
+        waveFrame++;
+        let line = "";
+        for (let i = 0; i < 40; i++) {
+          const y = Math.sin((i + waveFrame) * 0.3) * 2;
+          line += y > 1 ? "▀" : y > 0 ? "─" : y > -1 ? "─" : "▄";
+        }
+        wave.textContent = line;
+      }, 80);
+
+      // Clock
+      const clock = document.getElementById("clock");
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, "0");
+        const m = String(now.getMinutes()).padStart(2, "0");
+        const s = String(now.getSeconds()).padStart(2, "0");
+        clock.textContent = `┌─────────┐\n│  ${h}:${m}:${s}  │\n└─────────┘`;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // ASCII Art Generator
+      const asciiInput = document.getElementById("asciiInput");
+      const asciiOutput = document.getElementById("asciiOutput");
+      asciiInput.addEventListener("input", () => {
+        const text = asciiInput.value.toLowerCase() || "hello";
+        asciiOutput.textContent =
+          "╔" +
+          "═".repeat(text.length + 2) +
+          "╗\n║ " +
+          text +
+          " ║\n╚" +
+          "═".repeat(text.length + 2) +
+          "╝";
+      });
+      asciiInput.dispatchEvent(new Event("input"));
+
+      // Game
+      const gameBoard = document.getElementById("gameBoard");
+      const boardWidth = 20;
+      const boardHeight = 8;
+      let playerX = 10;
+      let playerY = 4;
+
+      function renderGame() {
+        let board = "";
+        for (let y = 0; y < boardHeight; y++) {
+          for (let x = 0; x < boardWidth; x++) {
+            if (
+              x === 0 ||
+              x === boardWidth - 1 ||
+              y === 0 ||
+              y === boardHeight - 1
+            ) {
+              board += "#";
+            } else if (x === playerX && y === playerY) {
+              board += "@";
+            } else {
+              board += " ";
+            }
+          }
+          board += "\n";
+        }
+        gameBoard.textContent = board;
+      }
+
+      function movePlayer(dx, dy) {
+        const newX = playerX + dx;
+        const newY = playerY + dy;
+        if (
+          newX > 0 &&
+          newX < boardWidth - 1 &&
+          newY > 0 &&
+          newY < boardHeight - 1
+        ) {
+          playerX = newX;
+          playerY = newY;
+          renderGame();
+        }
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowUp") movePlayer(0, -1);
+        if (e.key === "ArrowDown") movePlayer(0, 1);
+        if (e.key === "ArrowLeft") movePlayer(-1, 0);
+        if (e.key === "ArrowRight") movePlayer(1, 0);
+      });
+
+      document
+        .getElementById("upBtn")
+        .addEventListener("click", () => movePlayer(0, -1));
+      document
+        .getElementById("downBtn")
+        .addEventListener("click", () => movePlayer(0, 1));
+      document
+        .getElementById("leftBtn")
+        .addEventListener("click", () => movePlayer(-1, 0));
+      document
+        .getElementById("rightBtn")
+        .addEventListener("click", () => movePlayer(1, 0));
+
+      renderGame();
+
+      // Bar Chart
+      const barChart = document.getElementById("barChart");
+      function updateBarChart() {
+        const values = [
+          Math.floor(Math.random() * 20) + 5,
+          Math.floor(Math.random() * 20) + 5,
+          Math.floor(Math.random() * 20) + 5,
+          Math.floor(Math.random() * 20) + 5,
+          Math.floor(Math.random() * 20) + 5,
+        ];
+        let chart = "";
+        const labels = ["mon", "tue", "wed", "thu", "fri"];
+        for (let i = 0; i < values.length; i++) {
+          chart +=
+            labels[i] + " │" + "█".repeat(values[i]) + " " + values[i] + "\n";
+        }
+        barChart.textContent = chart;
+      }
+      updateBarChart();
+      setInterval(updateBarChart, 2000);
+
+      // Spinner
+      const spinner = document.getElementById("spinner");
+      const spinnerFrames = ["◐", "◓", "◑", "◒"];
+      let spinnerIdx = 0;
+      setInterval(() => {
+        spinnerIdx = (spinnerIdx + 1) % spinnerFrames.length;
+        spinner.textContent = spinnerFrames[spinnerIdx] + " loading...";
+      }, 150);
+
+      // Range slider output
+      const rangeSlider = document.getElementById("rangeSlider");
+      const rangeOutput = document.getElementById("rangeOutput");
+      rangeSlider.addEventListener("input", () => {
+        rangeOutput.textContent = rangeSlider.value;
+      });
+
+      // Dialog
+      const openDialogBtn = document.getElementById("openDialog");
+      const myDialog = document.getElementById("myDialog");
+      openDialogBtn.addEventListener("click", () => {
+        myDialog.showModal();
+      });
+    </script>
+  </body>
+</html>
