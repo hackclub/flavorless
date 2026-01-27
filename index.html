@@ -141,6 +141,32 @@
           use <code>width</code>, <code>height</code>, <code>border</code> on
           elements
         </dd>
+        <dt>javascript "responsiveness"</dt>
+        <dd>
+          <span id="responsive-text"
+            >try resizing this page to see me move</span
+          >
+          <script>
+            function updateSpaces() {
+              var el = document.getElementById("responsive-text");
+              var text = "try resizing this page to see me move";
+              var rect = el.parentElement.getBoundingClientRect();
+              var containerWidth = rect.width;
+              el.textContent = text;
+              var textRect = el.getBoundingClientRect();
+              var textWidth = textRect.width;
+              var spaceWidth = 16;
+              var spaces = Math.max(0, Math.floor((containerWidth - textWidth) / 2 / spaceWidth));
+              var padding = "";
+              for (var i = 0; i < spaces; i++) {
+                padding += "\u2003";
+              }
+              el.textContent = padding + text;
+            }
+            window.addEventListener("resize", updateSpaces);
+            updateSpaces();
+          </script>
+        </dd>
       </dl>
 
       <hr />
